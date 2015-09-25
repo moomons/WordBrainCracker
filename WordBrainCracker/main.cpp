@@ -23,10 +23,6 @@ public:
         available = false;
     }
     
-    void Print(){
-        std::cout << letter << ", " << available;
-    }
-    
 //    std::ostream & operator << (std::ostream & out, square const & data) {
 //        out << letter << ", " ;
 //        out << available;
@@ -50,23 +46,27 @@ public:
 class Cracker{
 private:
     std::string RawLettersInput;
-    int LettersLeft;
     int MatrixSize;
     int HowManyWords;
     std::vector<std::string> Dict;
+    std::string MatchedWord[9];
     int ExpectedWordLength[9];
     square SQ[9][9];
     square SQ_EMPTY; // 空格子
     bool flag_GotSolution = false;
     clock_t timer;
     
-    int SQSetAllAvailable(){
-        int i,j;
-        for (i = 1; i <= MatrixSize; i++)
-            for (j = 1; j <= MatrixSize; j++)
-            {
-                SQ[i][j].available = true;
+    int PrintWordMatchResult(){
+        int i;
+        for (i = 0; i < HowManyWords; i++){
+            std::cout << MatchedWord[i];
+            if (i != HowManyWords-1){
+                std::cout << ", ";
             }
+            else{
+                std::cout << std::endl;
+            }
+        }
         return 0;
     }
     
@@ -77,17 +77,6 @@ private:
             for (y = MatrixSize; y >= 1; y--)
             {
                 if (SQ[x][y].available == false){ // 如果当前格子已经被 match 掉了
-                    
-//                    std::cout << "SQ[x][y] = ";
-//                    SQ[x][y].Print();
-//                    std::cout << std::endl;
-//                    std::cout << "SQ[x-1][y] = ";
-//                    SQ[x-1][y].Print();
-//                    std::cout << std::endl;
-//                    std::cout << "SQ[x][y-1] = ";
-//                    SQ[x][y-1].Print();
-//                    std::cout << std::endl;
-                    
                     if (x-1 >= 1 && SQ[x-1][y].available == true){
                         // 上方格子可用
                         SQ[x][y] = SQ[x-1][y];
@@ -102,10 +91,6 @@ private:
             }
     }
     
-    // Return Values:
-    // 0 means word found
-    // 1 means letter not available
-    // -1 means word not found
     int FindWord(std::vector<std::string> DictInput, square SQ[9][9], int WordCount, int RecurDepth, int Cord_X, int Cord_Y){
         // Check availability of the current letter
         if (SQ[Cord_X][Cord_Y].available == false || 0){
@@ -124,32 +109,33 @@ private:
         
         if (RecurDepth+1 == ExpectedWordLength[WordCount+1] && ParsedDict.size() > 0){ // 达到要求的长度了
             // 开始检查
+            int i, j;
+            square SQ_ForNextWord[9][9];
+            
             for (dict_it = ParsedDict.begin(); dict_it < ParsedDict.end(); dict_it++){
                 if ((*dict_it).size() == ExpectedWordLength[WordCount+1]){
-                    flag_GotSolution = true;
-                    std::cout << "Word " << WordCount+1 << ": " << *dict_it << std::endl;
+                    MatchedWord[WordCount] = *dict_it;
+                    
+                    memcpy(SQ_ForNextWord, SQ, 9*9*sizeof(square));
+                    
+                    // 模拟消除一个单词之后的下落效果
+                    DropSquare(SQ_ForNextWord);
+                    
+                    for (i = 1; i <= MatrixSize; i++)
+                        for (j = 1; j <= MatrixSize; j++)
+                        {
+                            FindWord(Dict, SQ_ForNextWord, WordCount+1, 0, i, j);
+                        }
+                    
+                    if (WordCount+1 == HowManyWords){
+                        static int OutCount = 0;
+                        std::cout << "Solution " << ++OutCount << ": ";
+                        PrintWordMatchResult();
+                    }
                 }
             }
-            
-            if (flag_GotSolution){
-                flag_GotSolution = false;
-                
-                square SQ_ForNextWord[9][9];
-                memcpy(SQ_ForNextWord, SQ, 9*9*sizeof(square));
-                // 模拟消除一个单词之后的下落效果
-                DropSquare(SQ_ForNextWord);
-                
-                int i, j;
-                for (i = 1; i <= MatrixSize; i++)
-                    for (j = 1; j <= MatrixSize; j++)
-                    {
-                        FindWord(Dict, SQ_ForNextWord, WordCount+1, 0, i, j);
-                    }
-            }
-            
         }
         else{
-            
             // 6  7  8    .Y
             // 5     1    X
             // 4  3  2
@@ -241,6 +227,5 @@ int main(int argc, const char * argv[]) {
     Cracker CR(true);
     
     std::cout << "Done." << std::endl;
-    
     return 0;
 }
