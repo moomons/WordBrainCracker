@@ -8,23 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		CD7F03B71BB4DFA2009680C7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD7F03B61BB4DFA2009680C7 /* main.cpp */; };
+		CD7F03BE1BB4F024009680C7 /* web2 in Copy Files */ = {isa = PBXBuildFile; fileRef = CD7F03BD1BB4F024009680C7 /* web2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CD7F03B11BB4DFA2009680C7 /* CopyFiles */ = {
+		CD7F03B11BB4DFA2009680C7 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 6;
 			files = (
+				CD7F03BE1BB4F024009680C7 /* web2 in Copy Files */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CD7F03B31BB4DFA2009680C7 /* WordBrainCracker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WordBrainCracker; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD7F03B61BB4DFA2009680C7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CD7F03BD1BB4F024009680C7 /* web2 */ = {isa = PBXFileReference; lastKnownFileType = text; name = web2; path = ../web2; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,7 @@
 		CD7F03B51BB4DFA2009680C7 /* WordBrainCracker */ = {
 			isa = PBXGroup;
 			children = (
+				CD7F03BD1BB4F024009680C7 /* web2 */,
 				CD7F03B61BB4DFA2009680C7 /* main.cpp */,
 			);
 			path = WordBrainCracker;
@@ -71,7 +76,7 @@
 			buildPhases = (
 				CD7F03AF1BB4DFA2009680C7 /* Sources */,
 				CD7F03B01BB4DFA2009680C7 /* Frameworks */,
-				CD7F03B11BB4DFA2009680C7 /* CopyFiles */,
+				CD7F03B11BB4DFA2009680C7 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -235,6 +240,7 @@
 				CD7F03BC1BB4DFA2009680C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
